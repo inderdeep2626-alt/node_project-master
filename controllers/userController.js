@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const User = require('../models/userModel.js');
+const User = require('../models/userModels.js');
 
 async function createUser(req, res) {
     try {
