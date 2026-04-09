@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const User = require('../models/userModels.js');
+const mongoose = require('mongoose');
 
 //home page
 router.get('/home', (req, res) =>{
@@ -24,6 +26,17 @@ router.get('/search', (req, res) => {
 router.use((req, res, next) =>{
     console.log(`Request URL: ${req.url}.  Time: ${new Date()}`);
     next();
+});
+
+//API endpoint that exposes all resources from the database
+router.get('/users', async (req, res) => {
+    try {
+    const users = await User.find();
+
+    res.json(users).status(200);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching users', error });
+    }
 });
 
 //commonjs syntax to export the router (configured in package.json "type": "commonjs")

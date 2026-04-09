@@ -1,12 +1,17 @@
 const mongoose = require('mongoose');
 const User = require('../models/userModels.js');
+const bcrypt = require('bcrypt');
 
 async function createUser(req, res) {
     try {
+
+        const hashed_password = await bcrypt.hash(req.body.password, 10);
+
 //create a new user object that excists in memory
 const newUser = {
     first_name: req.body.first_name,
     username: req.body.username,
+    password: hashed_password,
     email: req.body.email,
 };
 //create a new user document in the database
